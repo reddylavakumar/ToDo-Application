@@ -32,14 +32,6 @@ img {
   padding: 1.5rem;
   height: 80vh;
   transition: background-color 0.3s ease-out;
-  /* display: flex;
-  justify-content: center;
-  position: fixed;
-  top: 10%;
-  width: 80vw;
-  border-radius: 12px;
-  padding: 1.5rem;
-  height: 80vh; */
 }
 
 .title-div {
@@ -53,6 +45,10 @@ img {
 }
 .sort-theme span {
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0px 0px;
 }
 .sec-container {
   padding: 10px;
@@ -99,7 +95,7 @@ img {
 
 .todo-text.checked {
   text-decoration: line-through;
-  /* color: #999; */
+  color: #999;
 }
 
 .todo-input-group {
@@ -150,11 +146,14 @@ img#add-button {
   height: 29px;
 }
 .todo-list {
-  padding-right: 10px;
+  /* padding-right: 10px; */
   max-height: 60vh;
   overflow-x: auto;
   scroll-behavior: smooth;
   scrollbar-width: thin;
+}
+.todo-list.scrollbar-visible {
+  padding-right: 10px;
 }
 
 .clear-button {
@@ -207,4 +206,27 @@ li {
   .sec-container {
     box-shadow: none;
   }
+}
+
+#filter-sort-select {
+  align-self: flex-end;
+  /* padding: 0px; */
+  border: 2px solid #b2afaf;
+  border-radius: 5px;
+  padding: 3px;
+  margin-left: 0.3rem;
+  color: inherit;
+  /* background: rgb(121, 121, 121); */
+}
+.selectfield {
+  align-self: flex-end;
+  /* padding: 0px; */
+  border: 2px solid #b2afaf;
+  border-radius: 5px;
+  padding: 3px;
+  margin-left: 0.3rem;
+  color: inherit;
+}
+
+img title {
 }

@@ -18,29 +18,27 @@
                 <div class="sort-theme">
                     <div>
                         <span class="sort-text">
-                            <img title="Sort and Filter" src="./Assets/filtersortdark.png" />
+                            <img id="filterandsort" title="Sort and Filter" src="./Assets/filtersortdark.png" />
+                            <img id="filterandsortdark" title="Sort and Filter" src="./Assets/filtersortlight.png" />
+                            <select class="selectfield" id="filter-sort-select">
+                                <option value="all">All</option>
+                                <option value="completed">Completed</option>
+                                <option value="pending">Pending</option>
+                                <option value="az">Sort A-Z</option>
+                                <option value="za">Sort Z-A</option>
+                                <option value="newest">Newest First</option>
+                                <option value="oldest">Oldest First</option>
+                            </select>
+
                         </span>
                     </div>
                     <div>
                         <span>
-
                             <img id="dark-theme" title="Dark Theme" src="./Assets/nightmode.png" />
+                            <img id="light-theme" title="Dark Theme" src="./Assets/lightmode.png" />
                         </span>
                     </div>
                 </div>
-                <div class="sort-theme">
-                    <div>
-                        <span class="sort-text">
-                            <img title="Sort and Filter" src="./Assets/filtersortlight.png" />
-                        </span>
-                    </div>
-                    <div>
-                        <span>
-                            <img id="light-theme" title="Light Theme" src="./Assets/lightmode.png" />
-                        </span>
-                    </div>
-                </div>
-
             </div>
             <div class="todo-input-group">
                 <input type="text" id="todo-input" class="todo-input" placeholder="Add new task" />
@@ -51,15 +49,13 @@
             </ul>
             <div class="footer">
                 <div class="remaining-task-count">
-                    Your remaining todos : <span id="pending-count"></span>
+                    Your remaining todos : <span id="pending-count">0</span>
                 </div>
-                <!-- <div class="footer-quote"> -->
                 <p>
 
                     "Doing what you love is the cornerstone of having
                     abundance in your life. " - Wayne Dyer
                 </p>
-                <!-- </div> -->
             </div>
         </div>
     </div>
