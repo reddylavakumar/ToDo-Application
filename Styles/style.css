@@ -25,7 +25,8 @@ img {
   justify-content: center;
   position: fixed;
   top: 10%;
-  width: 80vw;
+  /* width: 80vw; */
+  width: 55vw;
   background-color: #fff;
   border-radius: 12px;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
@@ -240,4 +241,23 @@ li {
 
 img#filterandsort {
   cursor: initial;
+}
+
+.theme-button {
+  background: none;
+  border: 0px;
+}
+
+.theme-button:focus {
+  background: lightgrey;
+  border: 0px solid grey;
+}
+#light-theme {
+  background: transparent;
+  display: flex;
+}
+
+.add-btn {
+  background: unset;
+  border: 0;
 }

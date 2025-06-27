@@ -34,16 +34,23 @@
                     </div>
                     <div>
                         <span>
-                            <img id="dark-theme" title="Dark Theme" src="./Assets/nightmode.png" />
-                            <img id="light-theme" title="Dark Theme" src="./Assets/lightmode.png" />
+                            <button id="dark-theme" class="theme-button">
+                                <img title="Dark Theme" src="./Assets/nightmode.png" aria-label="Enable dark theme" />
+                            </button>
+                            <button id="light-theme">
+
+                                <img title="Light Theme" src="./Assets/lightmode.png" />
+                            </button>
                         </span>
                     </div>
                 </div>
             </div>
             <div class="todo-input-group">
                 <input type="text" id="todo-input" class="todo-input" placeholder="Add new task" />
-                <img id="add-button" class="todo-add-button" aria-label="Add new todo" src="./Assets/plusicon.png"
-                    alt="Add new todo icon" />
+                <button class="add-btn">
+                    <img id="add-button" class="todo-add-button" aria-label="Add new todo" src="./Assets/plusicon.png"
+                        alt="Add new todo icon" />
+                </button>
             </div>
             <ul class="todo-list" id="todo-list">
             </ul>
@@ -52,7 +59,6 @@
                     Your remaining todos : <span id="pending-count">0</span>
                 </div>
                 <p>
-
                     "Doing what you love is the cornerstone of having
                     abundance in your life. " - Wayne Dyer
                 </p>

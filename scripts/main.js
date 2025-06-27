@@ -45,6 +45,7 @@ addButton.addEventListener("click", () => {
   if (task !== "") {
     createTodoItem(task);
     input.value = "";
+    input.focus();
   }
 });
 
@@ -53,6 +54,16 @@ input.addEventListener("keydown", (e) => {
     addButton.click();
   }
 });
+
+const addbnt = document.getElementsByClassName("add-btn")[0];
+if (addbnt) {
+  addbnt.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      addButton.click();
+    }
+  });
+}
 
 function createTodoItem(text) {
   const newTodo = {
@@ -72,6 +83,7 @@ function renderTodoList() {
   const todosToRender = getFilteredSortedTodos(filterValue);
 
   list.innerHTML = "";
+
   todosToRender.forEach((todo) => {
     const li = document.createElement("li");
     li.setAttribute("data-id", todo.id);
@@ -79,55 +91,8 @@ function renderTodoList() {
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.checked = todo.completed;
+    checkbox.className = "todo-checkbox";
 
-    // const span = document.createElement("span");
-    // with out edit
-    // span.className = "todo-text";
-    // span.textContent = todo.task;
-    // if (todo.completed) span.classList.add("checked");
-    // with edit
-    const span = document.createElement("span");
-    span.className = "todo-text";
-    span.textContent = todo.task;
-    if (todo.completed) span.classList.add("checked");
-
-    // onclick edit with input field
-    span.addEventListener("click", () => {
-      inputEdit.value = todo.task;
-      inputEdit.className = "todo-edit-input";
-
-      inputEdit.style.width = `${span.offsetWidth}px`;
-      inputEdit.style.font = window.getComputedStyle(span).font;
-      inputEdit.style.resize = "none";
-
-      span.replaceWith(inputEdit);
-      inputEdit.focus();
-      inputEdit.setSelectionRange(
-        inputEdit.value.length,
-        inputEdit.value.length
-      );
-
-      const saveEdit = () => {
-        const newValue = inputEdit.value.trim();
-        if (newValue !== "") {
-          todo.task = newValue;
-          saveTodos();
-          renderTodoList();
-        } else {
-          renderTodoList();
-        }
-      };
-
-      inputEdit.addEventListener("blur", saveEdit);
-      inputEdit.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" && !e.shiftKey) {
-          e.preventDefault();
-          saveEdit();
-        }
-      });
-    });
-
-    // ---------------------end of edit-------------
     checkbox.addEventListener("change", () => {
       todo.completed = checkbox.checked;
       saveTodos();
@@ -135,9 +100,28 @@ function renderTodoList() {
       updatePendingCount();
     });
 
+    checkbox.addEventListener("keydown", (e) => {
+      if (e.key === " " || e.key === "Enter") {
+        e.preventDefault();
+        checkbox.checked = !checkbox.checked;
+        checkbox.dispatchEvent(new Event("change"));
+      }
+    });
+
+    const span = document.createElement("span");
+    span.className = "todo-text";
+    span.textContent = todo.task;
+    if (todo.completed) span.classList.add("checked");
+    span.tabIndex = 0;
+
+    span.addEventListener("click", () => startEditing(todo, span));
+    span.addEventListener("focus", () => span.click());
+
     const clearButton = document.createElement("button");
     clearButton.className = "clear-button";
     clearButton.textContent = "X";
+    clearButton.setAttribute("aria-label", `Delete task: ${todo.task}`);
+    clearButton.tabIndex = 0;
     clearButton.addEventListener("click", () => {
       todoData = todoData.filter((item) => item.id !== todo.id);
       saveTodos();
@@ -150,6 +134,55 @@ function renderTodoList() {
     li.appendChild(clearButton);
     list.appendChild(li);
   });
+}
+
+function startEditing(todo, span) {
+  inputEdit.value = todo.task;
+  inputEdit.className = "todo-edit-input";
+
+  inputEdit.style.width = `${span.offsetWidth}px`;
+  inputEdit.style.font = window.getComputedStyle(span).font;
+  inputEdit.style.resize = "none";
+
+  span.replaceWith(inputEdit);
+
+  inputEdit.focus();
+  inputEdit.setSelectionRange(inputEdit.value.length, inputEdit.value.length);
+
+  const saveEdit = () => {
+    const newValue = inputEdit.value.trim();
+    if (newValue !== "") {
+      todo.task = newValue;
+      saveTodos();
+      renderTodoList();
+    } else {
+      renderTodoList();
+    }
+  };
+
+  inputEdit.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      e.preventDefault();
+      renderTodoList();
+    } else if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      saveEdit();
+    } else if (e.key === "Tab") {
+      e.preventDefault();
+      saveEdit();
+      requestAnimationFrame(() => {
+        const li = list.querySelector(`li[data-id="${todo.id}"]`);
+        if (li) {
+          const focusTarget = e.shiftKey
+            ? li.querySelector(".todo-checkbox")
+            : li.querySelector(".clear-button");
+          if (focusTarget) focusTarget.focus();
+        }
+      });
+    }
+  });
+
+  inputEdit.addEventListener("blur", saveEdit);
 }
 
 function getFilteredSortedTodos(option) {
